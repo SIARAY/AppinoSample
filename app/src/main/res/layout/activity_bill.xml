@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPageBackground"
+    tools:context=".BillActivity">
+
+    <Button
+        android:id="@+id/btnSend"
+        android:layout_width="250dp"
+        android:layout_height="75dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="70dp"
+        android:backgroundTint="#2196F3"
+        android:text="Send"
+        android:textColor="#ffffff"
+        android:textSize="17sp" />
+
+    <RelativeLayout
+        android:id="@+id/headerContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="10dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+
+        <EditText
+            android:id="@+id/etBillId"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="#33ffffff"
+            android:hint="شناسه قبض"
+            android:inputType="number"
+            android:maxLength="36"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:textColorHint="#55ffffff"
+            android:text=""
+            android:textColor="#ffffff"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/etPaymentCode"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_below="@+id/etBillId"
+            android:layout_marginTop="45dp"
+            android:background="#33ffffff"
+            android:hint="کد پرداخت"
+            android:inputType="number"
+            android:maxLength="36"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:textColorHint="#55ffffff"
+            android:text=""
+            android:textColor="#ffffff"
+            android:textSize="20sp" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="30dp"
+        android:gravity="center_horizontal"
+        android:text="پرداخت قبض"
+        android:textColor="#ffffff"
+        android:textSize="20sp" />
+</RelativeLayout>

@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">AppinoSample</string>
+    <string name="appino_sdk_label">"Appino SDK v%s"</string>
+</resources>
