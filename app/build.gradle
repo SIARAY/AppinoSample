@@ -25,16 +25,9 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
-
-    //SDK necessary dependencies
-    implementation 'com.squareup.retrofit2:retrofit:2.6.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.12.1'//for debug
-    implementation 'ir.siaray:telephonymanagerplus:1.0.4'
-    implementation 'com.android.support:customtabs:28.0.0'
-    implementation project(path: ':AppinoSdk-v1.0.0')
-
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    //Appino SDK dependency
+    implementation 'ir.ayantech:appino:1.0.0'
 
 }

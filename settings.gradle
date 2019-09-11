@@ -1,2 +1,2 @@
-include ':app', ':AppinoSdk-v1.0.0'
+include ':app'
 rootProject.name='AppinoSample'
