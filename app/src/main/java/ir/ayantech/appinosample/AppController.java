@@ -14,7 +14,7 @@ public class AppController extends Application {
 
     private void initializeAppino(Context context) {
         Appino.getInstance(context)
-                .setDebugEnabled(true)
+                .setDebugEnabled(true) //For print logs
                 .build();
     }
 }
