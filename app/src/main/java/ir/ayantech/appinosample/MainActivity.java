@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void initializeUi() {
         TextView tvLabel = findViewById(R.id.tvLabel);
-        tvLabel.setText(getString(R.string.appino_sdk_label, BuildConfig.VERSION_NAME));
+        tvLabel.setText(getString(R.string.appino_sdk_label, "1.0.0"));
         btnRecharge = findViewById(R.id.btnRecharge);
         btnBill = findViewById(R.id.btnBill);
         btnRecharge.setOnClickListener(this);
