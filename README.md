@@ -20,7 +20,7 @@
     </manifest>
 ```
 
-سپس کد زیر را در متد onCreate کلای Application
+سپس کد زیر را در متد onCreate کلاس Application
 قرار دهید.
 ```java
         Appino.getInstance(context)
