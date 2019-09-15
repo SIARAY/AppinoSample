@@ -20,6 +20,12 @@
     </manifest>
 ```
 
+برای استفاده از این کتابخانه باید مجوز های زیر را در مانیفست برنامه خود قرار دهید.
+```xml
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+```
+
 سپس کد زیر را در متد onCreate کلاس Application
 قرار دهید.
 ```java
