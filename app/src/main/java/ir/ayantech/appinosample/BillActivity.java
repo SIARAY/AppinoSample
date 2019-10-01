@@ -90,7 +90,7 @@ public class BillActivity extends AppCompatActivity implements View.OnClickListe
 
     PaymentStatusListener paymentStatusListener = new PaymentStatusListener() {
         @Override
-        public void onSuccess(String amount, String orderId, String transactionId) {
+        public void onSuccess(int value, String amount, String currency, String orderId, String transactionId, String date) {
             showMessageDialog("مبلغ: " + amount + "\n"
                     + "شناسه سفارش: " + orderId + "\n"
                     + "شناسه تراکنش: " + transactionId);

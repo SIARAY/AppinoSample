@@ -61,7 +61,7 @@ public class SimRechargeActivity extends AppCompatActivity {
 
     private void showProgress() {
         progressDialog = ProgressDialog.show(SimRechargeActivity.this, "",
-                "لطفا کمی صبر کنید...", true);
+                "Loading. Please wait...", true);
         progressDialog.setCancelable(false);
     }
 
@@ -136,7 +136,7 @@ public class SimRechargeActivity extends AppCompatActivity {
 
     PaymentStatusListener paymentStatusListener = new PaymentStatusListener() {
         @Override
-        public void onSuccess(String amount, String orderId, String transactionId) {
+        public void onSuccess(int value, String amount, String currency, String orderId, String transactionId, String date) {
             showRechargePaymentStatus("مبلغ: " + amount + "\n"
                     + "شناسه سفارش: " + orderId + "\n"
                     + "شناسه تراکنش: " + transactionId);

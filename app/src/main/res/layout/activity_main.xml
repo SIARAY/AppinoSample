@@ -8,36 +8,6 @@
     android:padding="10dp"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/btnRecharge"
-        android:layout_width="250dp"
-        android:layout_height="75dp"
-        android:layout_marginBottom="172dp"
-        android:backgroundTint="#FF9800"
-        android:text="خرید شارژ"
-        android:textColor="#ffffff"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
-
-    <Button
-        android:id="@+id/btnBill"
-        android:layout_width="250dp"
-        android:layout_height="75dp"
-        android:layout_marginBottom="40dp"
-        android:backgroundTint="#2196F3"
-        android:text="پرداخت قبض"
-        android:textColor="#ffffff"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/btnRecharge"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
-
     <TextView
         android:id="@+id/tvLabel"
         android:layout_width="wrap_content"
@@ -51,5 +21,50 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.088" />
+
+    <Button
+        android:id="@+id/btnStore"
+        android:layout_width="250dp"
+        android:layout_height="75dp"
+        android:layout_marginBottom="150dp"
+        android:backgroundTint="#4CAF50"
+        android:text="فروشگاه"
+        android:textSize="20sp"
+        android:textColor="#ffffff"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <Button
+        android:id="@+id/btnRecharge"
+        android:layout_width="250dp"
+        android:layout_height="75dp"
+        android:layout_marginBottom="40dp"
+        android:backgroundTint="#FF9800"
+        android:text="خرید شارژ"
+        android:textSize="20sp"
+        android:textColor="#ffffff"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/btnStore"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <Button
+        android:id="@+id/btnBill"
+        android:layout_width="250dp"
+        android:layout_height="75dp"
+        android:layout_marginBottom="40dp"
+        android:backgroundTint="#2196F3"
+        android:text="پرداخت قبض"
+        android:textSize="20sp"
+        android:textColor="#ffffff"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/btnRecharge"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

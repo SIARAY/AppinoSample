@@ -9,15 +9,25 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+
+import ir.ayantech.appino.Appino;
+import ir.ayantech.appino.OrderType;
+import ir.ayantech.appino.PaymentCallback;
+
+import static ir.ayantech.appinosample.Utils.getTypeface;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final int PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 32;
     private Button btnRecharge;
     private Button btnBill;
+    private Button btnStore;
+    private AlertDialog paymentDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,11 +39,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void initializeUi() {
         TextView tvLabel = findViewById(R.id.tvLabel);
-        tvLabel.setText(getString(R.string.appino_sdk_label, "1.0.0"));
+        tvLabel.setText(getString(R.string.appino_sdk_label, BuildConfig.VERSION_NAME));
         btnRecharge = findViewById(R.id.btnRecharge);
         btnBill = findViewById(R.id.btnBill);
+        btnStore = findViewById(R.id.btnStore);
         btnRecharge.setOnClickListener(this);
         btnBill.setOnClickListener(this);
+        btnStore.setOnClickListener(this);
+        btnRecharge.setTypeface(getTypeface(this));
+        btnBill.setTypeface(getTypeface(this));
+        btnStore.setTypeface(getTypeface(this));
     }
 
 
@@ -43,11 +58,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btnRecharge:
                 startActivity(new Intent(this, SimRechargeActivity.class));
                 break;
+
             case R.id.btnBill:
                 startActivity(new Intent(this, BillActivity.class));
                 break;
+
+            case R.id.btnStore:
+                Appino.startStore(MainActivity.this, new PaymentCallback() {
+                    @Override
+                    public void onSuccess(String orderType, String orderId, String transactionId, int value) {
+                        showPaymentStatusDialog(true, orderType, orderId, transactionId, value);
+                    }
+
+                    @Override
+                    public void onFailure(String orderType, String orderId) {
+                        showPaymentStatusDialog(false, orderType, orderId, "", 0);
+                    }
+                });
+                break;
         }
     }
+
 
     private void requestPermissions() {
         if (ContextCompat.checkSelfPermission(this,
@@ -73,5 +104,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             // Permission has already been granted
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        /*AppinoIntentResult intentResult = AppinoIntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if (intentResult != null) {
+            showPaymentStatusDialog(intentResult);
+        }*/
+    }
+
+
+    private void showPaymentStatusDialog(boolean success, String orderType, String orderId, String transactionId, int value) {
+        if (paymentDialog != null && paymentDialog.isShowing())
+            paymentDialog.dismiss();
+        String statusMessage = "پرداخت انجام نشد";
+        String type;
+        if (success)
+            statusMessage = "پرداخت موفقیت آمیز";
+        if (orderType == OrderType.RECHARGE) {
+            type = "شارژ";
+        } else {
+            type = "قبض";
+        }
+        paymentDialog = new AlertDialog.Builder(this)
+                .setTitle("مقادیر دریافت شده در برنامه")
+                .setMessage("وضعیت: " + statusMessage + "\n"
+                        + "نوع: " + type + "\n"
+                        + "شناسه سفارش: " + orderId + "\n"
+                        + "ارزش: " + value + "\n"
+                        + "کد پیگیری: " + transactionId)
+                .setPositiveButton("تایید", null)
+                .show();
     }
 }

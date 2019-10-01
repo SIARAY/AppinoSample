@@ -5,6 +5,8 @@ import android.content.Context;
 
 import ir.ayantech.appino.Appino;
 
+import static ir.ayantech.appinosample.Utils.getTypeface;
+
 public class AppController extends Application {
     @Override
     public void onCreate() {
@@ -14,7 +16,8 @@ public class AppController extends Application {
 
     private void initializeAppino(Context context) {
         Appino.getInstance(context)
-                .setDebugEnabled(true) //For print logs
+                .setDebugEnabled(true)
+                .setTypeface(getTypeface(context))
                 .build();
     }
 }
