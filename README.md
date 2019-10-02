@@ -4,7 +4,7 @@
 برای استفاده از کتابخانه اپینو ابتدا باید وابستگی زیر را به برنامه اضافه کنید
 
 ```
-    implementation 'ir.ayantech:appino:1.0.0'
+    implementation 'ir.ayantech:appino:1.0.1'
 ```
 
 ### روش استفاده
@@ -13,27 +13,73 @@
 ```xml
     <manifest>
         <application>
+        
+            <!-- بخش زیر به مانیفست اضافه شود-->
             <meta-data
                android:name="AppinoToken"
                android:value="توکن برنامه شما در این قسمت قرار می گیرد" />
+        
         </application>
     </manifest>
 ```
+
+در صورتی که برنامه شما پروگارد شده است، کد زیر را به فایل proguard-rules برنامه خود اضافه کنید
+```proguard
+-keep class ir.ayantech.appino.** { *; }
+```
+
 
 برای استفاده از این کتابخانه باید مجوز های زیر را در مانیفست برنامه خود قرار دهید.
 ```xml
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.CAMERA" />
 ```
+مجوز مخاطبین جهت وارد کردن شماره از لیست مخاطبین و مجوز دوربین برای بارکدخوان در بخش فروشگاه مورد نیاز است. در صورتی که از این بخش استفاده نمی کنید می توانید این مجوز ها را حذف کنید.
+
 
 سپس کد زیر را در متد onCreate کلاس Application
 قرار دهید.
 ```java
         Appino.getInstance(context)
                 .setDebugEnabled(true)
+                .setTypeface(typeface)
                 .build();
 ``` 
 متد setDebugEnabled جهت مشاهده لاگ های کتابخانه برای اشکال زدایی می باشد که در صورت false شدن کتابخانه هیچ لاگی را چاپ نخواهد کرد.
+متد setTypeface برای شخصی سازی فونت استفاده شده در بخش فروشگاه می باشد.
+
+
+### بخش فروشگاه
+ابتدا اکتیویتی زیر را به بخش application فایل مانیفست برناه خود اضافه کنید
+```xml
+        <activity android:name="ir.ayantech.appino.AppinoActivity"
+            android:screenOrientation="portrait"/>
+```
+بخش فروشگاه استفاده از کتابخانه را آسان نموده و در صورتی که نیاز به شخصی سازی رابط کاربری ندارید می توانید با فراخوانی مند زیر از تمام امکانات کتابخانه استفاده نمایید
+
+```java
+        Appino.startStore(YourActivity.this, new PaymentCallback() {
+            @Override
+            public void onSuccess(String orderType, String orderId, String transactionId, int value) {
+                //زمانی که پرداخت با موفقیت انجام شده باشد این متد فراخوانی می شود
+            }
+    
+            @Override
+            public void onFailure(String orderType, String orderId) {
+                //در صورت خطا در پرداخت این متد فراخوانی می شود
+            }
+        });
+```
+پس از فراخوانی متد بالا وارد اکتیویتی خرید شارژ و پرداخت قبض خواهید شد.
+پس از هر خرید شارژ یا پرداخت قبض با توجه به موفق بودن یا نبودن آن یکی از متد های onSuccess یا onFailure فراخوانی می شود.
+فیلد orderType مشخص کننده نوع قبض یا شارژ می باشد که می توانید در اینترفیس OrderType مقادیر آنرا مشاهده نمایید.
+فیلد orderId شناسه سفارش می باشد.
+فیلد transactionId شناسه تراکنش یا کد پیگیری می باشد.
+فیلد value برای خرید شارژ کاربرد دارد که با توجه به مبلغ شارژ مقدار متفاوتی را ارسال می کند.
+چنانچه در برنامه خود نیاز به در نظر گرفتن جایزه(یا سکه) برای کاربر دارید می توانید از فیلد value استفاده کنید.
+
 
 ### بخش شارژ
 - دریافت لیست شارژ
