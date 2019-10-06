@@ -52,12 +52,14 @@
 
 
 ### بخش فروشگاه
-ابتدا اکتیویتی زیر را به بخش application فایل مانیفست برناه خود اضافه کنید
+بخش فروشگاه استفاده از کتابخانه را آسان نموده و در صورتی که نیاز به شخصی سازی رابط کاربری ندارید می توانید از این بخش استفاده کنید.
+
+ابتدا اکتیویتی زیر را به بخش application فایل مانیفست برنامه خود اضافه کنید
 ```xml
         <activity android:name="ir.ayantech.appino.AppinoActivity"
             android:screenOrientation="portrait"/>
 ```
-بخش فروشگاه استفاده از کتابخانه را آسان نموده و در صورتی که نیاز به شخصی سازی رابط کاربری ندارید می توانید با فراخوانی مند زیر از تمام امکانات کتابخانه استفاده نمایید
+می توانید با فراخوانی مند زیر از تمام امکانات کتابخانه استفاده نمایید
 
 ```java
         Appino.startStore(YourActivity.this, new PaymentCallback() {
@@ -92,10 +94,13 @@
  
 برای دریافت لیست شارژ از متد زیر استفاده کنید.
 پارامتر اول تعیین کننده نوع اپراتور بوده که می تواند یکی از مقادیر ALL_OPERATORS ، HAMRAH_E_AVVAL ، IRANCELL یا RIGHTEL باشد.
+
 ```java
         Appino.getRechargeList(OperatorName.ALL_OPERATORS, rechargeListListener);
 ```
+
 برای دریافت نتیجه نیاز به تعریف لیسنر زیر خواهید داشت و باید آنرا به عنوان پارامتر دوم متد بالا ارسال کنید.
+
 ```java
     RechargeListListener rechargeListListener = new RechargeListListener() {
         @Override
