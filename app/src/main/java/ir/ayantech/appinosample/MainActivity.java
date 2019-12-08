@@ -18,6 +18,7 @@ import androidx.core.content.ContextCompat;
 import ir.ayantech.appino.Appino;
 import ir.ayantech.appino.OrderType;
 import ir.ayantech.appino.PaymentCallback;
+import ir.ayantech.appino.StoreType;
 
 import static ir.ayantech.appinosample.Utils.getTypeface;
 
@@ -27,6 +28,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button btnRecharge;
     private Button btnBill;
     private Button btnStore;
+    private Button btnStoreBottomSheet;
     private AlertDialog paymentDialog;
 
     @Override
@@ -39,16 +41,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void initializeUi() {
         TextView tvLabel = findViewById(R.id.tvLabel);
-        tvLabel.setText(getString(R.string.appino_sdk_label, BuildConfig.VERSION_NAME));
+        tvLabel.setText(getString(R.string.appino_sdk_label, BuildConfig.VERSION_NAME)
+                + "\n" + "نسخه آزمایشی 2");
         btnRecharge = findViewById(R.id.btnRecharge);
         btnBill = findViewById(R.id.btnBill);
         btnStore = findViewById(R.id.btnStore);
+        btnStoreBottomSheet = findViewById(R.id.btnStoreBottomSheet);
         btnRecharge.setOnClickListener(this);
         btnBill.setOnClickListener(this);
         btnStore.setOnClickListener(this);
+        btnStoreBottomSheet.setOnClickListener(this);
         btnRecharge.setTypeface(getTypeface(this));
         btnBill.setTypeface(getTypeface(this));
         btnStore.setTypeface(getTypeface(this));
+        btnStoreBottomSheet.setTypeface(getTypeface(this));
     }
 
 
@@ -64,7 +70,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.btnStore:
-                Appino.startStore(MainActivity.this, new PaymentCallback() {
+                Appino.startStore(MainActivity.this, StoreType.FULLSCREEN, new PaymentCallback() {
+                    @Override
+                    public void onSuccess(String orderType, String orderId, String transactionId, int value) {
+                        showPaymentStatusDialog(true, orderType, orderId, transactionId, value);
+                    }
+
+                    @Override
+                    public void onFailure(String orderType, String orderId) {
+                        showPaymentStatusDialog(false, orderType, orderId, "", 0);
+                    }
+                });
+                break;
+
+            case R.id.btnStoreBottomSheet:
+                Appino.startStore(MainActivity.this, StoreType.BOTTOMSHEET, new PaymentCallback() {
                     @Override
                     public void onSuccess(String orderType, String orderId, String transactionId, int value) {
                         showPaymentStatusDialog(true, orderType, orderId, transactionId, value);
@@ -125,6 +145,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             statusMessage = "پرداخت موفقیت آمیز";
         if (orderType == OrderType.RECHARGE) {
             type = "شارژ";
+        } else if (orderType == OrderType.INTERNET_PACKAGE) {
+            type = "بسته اینترنت";
         } else {
             type = "قبض";
         }
