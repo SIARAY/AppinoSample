@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void initializeUi() {
         TextView tvLabel = findViewById(R.id.tvLabel);
         tvLabel.setText(getString(R.string.appino_sdk_label, BuildConfig.VERSION_NAME)
-                + "\n" + "نسخه آزمایشی 2");
+                + "\n" + "نسخه آزمایشی 3");
         btnRecharge = findViewById(R.id.btnRecharge);
         btnBill = findViewById(R.id.btnBill);
         btnStore = findViewById(R.id.btnStore);
@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.btnStore:
-                Appino.startStore(MainActivity.this, StoreType.FULLSCREEN, new PaymentCallback() {
+                Appino.startStore( StoreType.FULLSCREEN, new PaymentCallback() {
                     @Override
                     public void onSuccess(String orderType, String orderId, String transactionId, int value) {
                         showPaymentStatusDialog(true, orderType, orderId, transactionId, value);
@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.btnStoreBottomSheet:
-                Appino.startStore(MainActivity.this, StoreType.BOTTOMSHEET, new PaymentCallback() {
+                Appino.startStore(StoreType.BOTTOMSHEET, new PaymentCallback() {
                     @Override
                     public void onSuccess(String orderType, String orderId, String transactionId, int value) {
                         showPaymentStatusDialog(true, orderType, orderId, transactionId, value);

@@ -30,8 +30,7 @@
             android:screenOrientation="portrait" />
 
         <activity android:name="ir.ayantech.appino.AppinoActivity"
-            android:theme="@style/AppinoThemeTransparent"
-            android:screenOrientation="portrait"/>
+            android:theme="@style/AppinoThemeTransparent"/>
         <meta-data
             android:name="AppinoToken"
             android:value="9f0ea3d6-65cf-481e-a8e6-85032dae1b8e" />
