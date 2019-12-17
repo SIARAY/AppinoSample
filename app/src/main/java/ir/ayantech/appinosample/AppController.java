@@ -17,7 +17,6 @@ public class AppController extends Application {
     private void initializeAppino(Context context) {
         Appino.getInstance(context)
                 .setDebugEnabled(true)
-                .setTypeface(getTypeface(context),1.5f)
                 .build();
     }
 }

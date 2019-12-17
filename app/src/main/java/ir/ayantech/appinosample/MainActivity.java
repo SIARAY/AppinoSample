@@ -18,6 +18,7 @@ import androidx.core.content.ContextCompat;
 import ir.ayantech.appino.Appino;
 import ir.ayantech.appino.OrderType;
 import ir.ayantech.appino.PaymentCallback;
+import ir.ayantech.appino.StoreOptions;
 import ir.ayantech.appino.StoreType;
 
 import static ir.ayantech.appinosample.Utils.getTypeface;
@@ -42,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void initializeUi() {
         TextView tvLabel = findViewById(R.id.tvLabel);
         tvLabel.setText(getString(R.string.appino_sdk_label, BuildConfig.VERSION_NAME)
-                + "\n" + "نسخه آزمایشی 3");
+                + "\n" + "نسخه آزمایشی 4");
         btnRecharge = findViewById(R.id.btnRecharge);
         btnBill = findViewById(R.id.btnBill);
         btnStore = findViewById(R.id.btnStore);
@@ -60,17 +61,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btnRecharge:
-                startActivity(new Intent(this, SimRechargeActivity.class));
-                break;
-
-            case R.id.btnBill:
-                startActivity(new Intent(this, BillActivity.class));
-                break;
-
-            case R.id.btnStore:
-                Appino.startStore( StoreType.FULLSCREEN, new PaymentCallback() {
+        StoreOptions options = StoreOptions.getInstance()
+                .setTypeface(getTypeface(this))
+                .setTextSizeRatio(1.0f)
+                .setCallBack(new PaymentCallback() {
                     @Override
                     public void onSuccess(String orderType, String orderId, String transactionId, int value) {
                         showPaymentStatusDialog(true, orderType, orderId, transactionId, value);
@@ -81,20 +75,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         showPaymentStatusDialog(false, orderType, orderId, "", 0);
                     }
                 });
+        switch (v.getId()) {
+
+            case R.id.btnStore:
+                options.setType(StoreType.FULLSCREEN);
+                Appino.startStore(options);
                 break;
 
             case R.id.btnStoreBottomSheet:
-                Appino.startStore(StoreType.BOTTOMSHEET, new PaymentCallback() {
-                    @Override
-                    public void onSuccess(String orderType, String orderId, String transactionId, int value) {
-                        showPaymentStatusDialog(true, orderType, orderId, transactionId, value);
-                    }
-
-                    @Override
-                    public void onFailure(String orderType, String orderId) {
-                        showPaymentStatusDialog(false, orderType, orderId, "", 0);
-                    }
-                });
+                options.setType(StoreType.BOTTOMSHEET);
+                Appino.startStore(options);
                 break;
         }
     }
@@ -125,16 +115,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // Permission has already been granted
         }
     }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        /*AppinoIntentResult intentResult = AppinoIntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        if (intentResult != null) {
-            showPaymentStatusDialog(intentResult);
-        }*/
-    }
-
 
     private void showPaymentStatusDialog(boolean success, String orderType, String orderId, String transactionId, int value) {
         if (paymentDialog != null && paymentDialog.isShowing())
