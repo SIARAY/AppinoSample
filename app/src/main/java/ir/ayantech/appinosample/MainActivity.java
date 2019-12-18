@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void initializeUi() {
         TextView tvLabel = findViewById(R.id.tvLabel);
         tvLabel.setText(getString(R.string.appino_sdk_label, BuildConfig.VERSION_NAME)
-                + "\n" + "نسخه آزمایشی 4");
+                + "\n" + "نسخه آزمایشی 5");
         btnRecharge = findViewById(R.id.btnRecharge);
         btnBill = findViewById(R.id.btnBill);
         btnStore = findViewById(R.id.btnStore);
