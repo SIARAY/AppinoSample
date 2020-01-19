@@ -4,7 +4,7 @@
 برای استفاده از کتابخانه اپینو ابتدا باید وابستگی زیر را به برنامه اضافه کنید
 
 ```
-    implementation 'ir.ayantech:appino:1.0.1'
+    implementation 'ir.ayantech:appino:1.0.2'
 ```
 
 ### روش استفاده
@@ -33,8 +33,8 @@
 ```xml
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
-    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />  <!--اختیاری-->
+    <uses-permission android:name="android.permission.CAMERA" /> <!--اختیاری-->
 ```
 مجوز مخاطبین جهت وارد کردن شماره از لیست مخاطبین و مجوز دوربین برای بارکدخوان در بخش فروشگاه مورد نیاز است. در صورتی که از این بخش استفاده نمی کنید می توانید این مجوز ها را حذف کنید.
 
@@ -44,7 +44,6 @@
 ```java
         Appino.getInstance(context)
                 .setDebugEnabled(true)
-                .setTypeface(typeface)
                 .build();
 ``` 
 متد setDebugEnabled جهت مشاهده لاگ های کتابخانه برای اشکال زدایی می باشد که در صورت false شدن کتابخانه هیچ لاگی را چاپ نخواهد کرد.
@@ -57,38 +56,44 @@
 ابتدا اکتیویتی زیر را به بخش application فایل مانیفست برنامه خود اضافه کنید
 ```xml
         <activity android:name="ir.ayantech.appino.AppinoActivity"
-            android:screenOrientation="portrait"/>
+            android:theme="@style/AppinoTheme.Translucent"/>
 ```
-می توانید با فراخوانی مند زیر از تمام امکانات کتابخانه استفاده نمایید
+.این بخش شامل دو نوع است
+در نوع FULLSCREEN فروشگاه در حالت تمام صفحه باز خواهد شد.
+اما در حالت BOTTOMSHEET برنامه در بخش پایینی صفحه ظاهر می شود.
+می توانید با فراخوانی متد زیر از تمام امکانات کتابخانه استفاده نمایید
 
 ```java
-        Appino.startStore(YourActivity.this, new PaymentCallback() {
-            @Override
-            public void onSuccess(String orderType, String orderId, String transactionId, int value) {
-                //زمانی که پرداخت با موفقیت انجام شده باشد این متد فراخوانی می شود
-            }
-    
-            @Override
-            public void onFailure(String orderType, String orderId) {
-                //در صورت خطا در پرداخت این متد فراخوانی می شود
-            }
-        });
+        StoreOptions options = StoreOptions.getInstance()
+                .setType(StoreType.BOTTOMSHEET); // یا نوع StoreType.FULLSCREEN
+                .setTypeface(getTypeface(this))
+                .setTextSizeRatio(1.0f)
+                .setCallBack(new PaymentCallback() {
+                    @Override
+                    public void onSuccess(String orderType, String orderId, String transactionId, int value) {
+                        //زمانی که پرداخت با موفقیت انجام شده باشد این متد فراخوانی می شود
+                    }
+
+                    @Override
+                    public void onFailure(String orderType, String orderId) {
+                        //در صورت خطا در پرداخت این متد فراخوانی می شود
+                    }
+                });
+                Appino.startStore(options);
+
 ```
 پس از فراخوانی متد بالا وارد اکتیویتی خرید شارژ و پرداخت قبض خواهید شد.
-
+متد setType نوع فروشگاه را تعیین م کند.
+متد SetTypeface فونت و متد setTextSizeRatio نسبت اندازه متون استفاده شده در فروشگاه را مشخص می کند. مقدار setTextSizeRatio می تواند بین 0.5 تا 1.5 باشد.
+برای دریافت نتیجه خرید از متد setCallBack استفاده کنید.
 پس از هر خرید شارژ یا پرداخت قبض با توجه به موفق بودن یا نبودن آن یکی از متد های onSuccess یا onFailure فراخوانی می شود.
-
 فیلد orderType مشخص کننده نوع قبض یا شارژ می باشد که می توانید در اینترفیس OrderType مقادیر آنرا مشاهده نمایید.
-
 فیلد orderId شناسه سفارش می باشد.
-
 فیلد transactionId شناسه تراکنش یا کد پیگیری می باشد.
-
 فیلد value برای خرید شارژ کاربرد دارد که با توجه به مبلغ شارژ مقدار متفاوتی را ارسال می کند.
-
 چنانچه در برنامه خود نیاز به در نظر گرفتن جایزه(یا سکه) برای کاربر دارید می توانید از فیلد value استفاده کنید.
 
-
+#### در صورتی که نیاز به شخصی سازی بیشتر فروشگاه در برنامه خود دارید، می توانید از طریق متد های زیر آن را پیاده سازی کنید.
 ### بخش شارژ
 - دریافت لیست شارژ
  
@@ -118,12 +123,12 @@
 - ورود به صفحه پرداخت هزینه شارژ
 
 برای ارجاع کاربر به صفحه پرداخت متد زیر را فراخوانی کنید. پس از فراخوانی این متد در صورت موقیت آمیز بودن درخواست، کاربر به صفحه پرداخت منتقل خواهد شد.
-rechargeModel مدل شارژی است که در لیست شارژ دریافت شد می باشد
+rechargeModel مدل شارژی است که در لیست شارژ دریافت می شود
 متد دوم شماره موبایلی است که می خواهید شارژ شود.
 ```java
     Appino.rechargePay(rechargeModel, mobileNumber, rechargeOrderListener);
 ```
-متد سوم لیسنر دریافت نتیجه درخواست می باشد که به شکل زیر تعریف می شود.
+پارامتر سوم لیسنر دریافت نتیجه درخواست می باشد که به شکل زیر تعریف می شود.
 شناسه سفارش (orderId) بعدا جهت چک کردن وضعیت پرداخت استفاده خواهد شد
 ```java
     RechargeOrderListener rechargeOrderListener = new RechargeOrderListener() {
@@ -189,3 +194,58 @@ rechargeModel مدل شارژی است که در لیست شارژ دریافت 
 - بررسی وضعیت پرداخت
 
 بررسی وضعیت پرداخت قبض مشابه بررسی پرداخت شارژ می باشد.
+
+
+## بخش بسته های اینترنت
+- دریافت لیست بسته های اینترنت
+
+برای دریافت لیست شارژ از متد زیر استفاده کنید.
+پارامتر اول تعیین کننده نوع اپراتور بوده که می تواند یکی از مقادیر HAMRAH_E_AVVAL ، IRANCELL یا RIGHTEL باشد.
+
+```java
+        Appino.getInternetPackagesList(OperatorName.HAMRAH_E_AVVAL, internetPackagesListListener);
+```
+برای دریافت نتیجه نیاز به تعریف لیسنر زیر خواهید داشت و باید آنرا به عنوان پارامتر دوم متد بالا ارسال کنید.
+
+```java
+    InternetPackagesListListener internetPackagesListListener = new InternetPackagesListListener() {
+        @Override
+        public void onSuccess(List<InternetPackageModel> internetPackagesList) {
+        //در صورت دریافت موفقیت آمیز لیست بسته ها، این متد فراخوانی می شود
+        }
+
+        @Override
+        public void onFailure(String errorMessage) {
+        //در صورت بروز هر خطایی این متد فراخوانی می شود
+        }
+    };
+```
+
+
+- ورود به صفحه پرداخت هزینه بسته اینترنت
+
+برای ارجاع کاربر به صفحه پرداخت متد زیر را فراخوانی کنید. پس از فراخوانی این متد در صورت موقیت آمیز بودن درخواست، کاربر به صفحه پرداخت منتقل خواهد شد.
+internetPackageModel مدل بسته اینترنت می باشد که در لیست بسته ها دریافت می شود
+متد دوم شماره موبایلی است که می خواهید شارژ شود.
+```java
+    Appino.reserveInternetPackage(internetPackageModel, mobileNumber, internetPackageReserveListener);
+```
+پارامتر سوم لیسنر دریافت نتیجه درخواست می باشد که به شکل زیر تعریف می شود.
+شناسه سفارش (orderId) بعدا جهت چک کردن وضعیت پرداخت استفاده خواهد شد
+```java
+    RechargeOrderListener rechargeOrderListener = new RechargeOrderListener() {
+        @Override
+        public void onSuccess(RechargeModel rechargeModel, String orderId) {
+        //در صورت موفقیت آمیز بودن ارسال درخواست در این بخش شناسه سفارش دریافت می شود
+        }
+
+        @Override
+        public void onFailure(String errorMessage) {
+        //در صورت بروز هر خطایی این متد فراخوانی می شود
+        }
+    };
+```
+
+- بررسی وضعیت پرداخت
+
+بررسی وضعیت پرداخت بسته اینترنت مشابه بررسی پرداخت شارژ می باشد.

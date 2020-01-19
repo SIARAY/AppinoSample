@@ -32,5 +32,5 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     //Appino SDK dependency
-    implementation 'ir.ayantech:appino:1.0.2.beta5'
+    implementation 'ir.ayantech:appino:1.0.2'
 }
